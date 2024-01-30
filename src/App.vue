@@ -13,6 +13,7 @@ import HelloWorld from './components/HelloWorld.vue'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/map">Map</RouterLink>
       </nav>
     </div>
   </header>
@@ -21,10 +22,10 @@ import HelloWorld from './components/HelloWorld.vue'
 </template>
 
 <style scoped>
-header {
+/* header {
   line-height: 1.5;
-  max-height: 100vh;
-}
+  max-height: 15vh;
+} */
 
 .logo {
   display: block;
