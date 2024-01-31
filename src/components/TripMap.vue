@@ -3,8 +3,8 @@ import { ref, onMounted } from 'vue'
 import { Loader } from '@googlemaps/js-api-loader'
 
 // configure map behavior
-// let delay = 0
-var mapStyles = [
+const delay = 1000
+const mapStyles = [
   {
     featureType: 'poi',
     elementType: 'labels',
@@ -111,7 +111,15 @@ export default {
               path: [],
               strokeColor: '#091F92',
               strokeOpacity: 1.0,
-              strokeWeight: 4,
+              strokeWeight: 2,
+              map: map.value
+            })
+
+            // Create the glow polyline
+            let glowPolyline = new google.maps.Polyline({
+              strokeColor: '#091F92',
+              strokeOpacity: 0.6,
+              strokeWeight: 6,
               map: map.value
             })
 
@@ -139,20 +147,27 @@ export default {
                 // Extend the polyline path by the current point
                 let path = polyline.getPath()
                 path.push(bikePath[i])
+                // Extend the glow polyline path by the current point
+                let glowPath = glowPolyline.getPath()
+                glowPath.push(bikePath[i])
 
                 i++
               } else {
-                // Remove the marker from the map
-                marker.setMap(null)
-                // Remove the polyline from the map
-                polyline.setMap(null)
                 // Clear the directions from the directionsRenderer
                 directionsRenderer.setDirections({ routes: [] })
                 // Clear the interval
                 clearInterval(interval)
 
                 // Start the next trip
-                startTrip(index + 1)
+                setTimeout(() => {
+                  // Remove the marker from the map
+                  marker.setMap(null)
+                  // Remove the polyline from the map
+                  polyline.setMap(null)
+                  glowPolyline.setMap(null)
+
+                  startTrip(index + 1)
+                }, delay)
               }
             }, speed)
           } else {
